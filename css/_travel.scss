@@ -1,0 +1,202 @@
+// ==========================================================
+//  TRAVEL / CUSTOMER CARE SECTION
+//  Landmark collage behind the content, flying aeroplanes,
+//  drifting clouds and an animated world route.
+// ==========================================================
+.travel {
+  position: relative;
+  max-width: none;
+  overflow: hidden;
+  color: #fff;
+  padding: 6rem 1.2rem 12rem;
+  isolation: isolate;
+  background: $sky;
+
+  @media (max-width: $bp-md) { padding: 4rem 1rem 7rem; }
+
+  // Dark tint so the text stays readable over the colourful pictures
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(180deg, rgba(13, 11, 36, .28), rgba(13, 11, 36, .5));
+  }
+
+  h2 { color: #fff; }
+  h2, .travel__lead { text-shadow: 0 2px 14px rgba(13, 11, 36, .85); }
+}
+
+// ---------- Landmark collage (behind everything) ----------
+.collage {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 3px;
+
+  @media (max-width: $bp-md) { grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(5, 1fr); }
+}
+
+.tile {
+  position: relative;
+  overflow: hidden;
+  margin: 0;
+
+  svg, img { position: absolute; inset: 0; width: 100%; height: 100%; }
+  svg { transform-origin: 50% 100%; animation: zoom 16s ease-in-out infinite alternate; }
+  img { object-fit: cover; }   // your own photo (img/landmarks/*.jpg) covers the illustration
+
+  figcaption {
+    position: absolute;
+    left: 12px;
+    bottom: 10px;
+    z-index: 2;
+    font: 800 .78rem $font-body;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: #fff;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, .6);
+  }
+}
+
+@keyframes zoom { to { transform: scale(1.1); } }
+
+.travel__inner {
+  position: relative;
+  z-index: 3;
+  max-width: 1100px;
+  margin: auto;
+}
+
+.travel__lead { max-width: 62ch; margin-bottom: 2rem; font-size: 1.1rem; }
+
+.travel__grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+}
+
+.t-card {
+  @include glass;
+  background: rgba(13, 11, 36, .5);   // darker glass keeps text readable over the pictures
+  border-radius: $radius;
+  padding: 1.3rem;
+  transition: transform .3s;
+
+  &:hover { transform: translateY(-6px); }
+
+  i[data-ic] { margin-bottom: .5rem; svg { width: 1.8rem; height: 1.8rem; stroke: var(--gold); } }
+  h3 { font-size: 1.15rem; margin-bottom: .3rem; }
+  p { font-size: .95rem; opacity: .95; }
+}
+
+.travel__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+  margin: 1.6rem 0;
+
+  span {
+    @include glass;
+    background: rgba(13, 11, 36, .5);
+    padding: .35rem .9rem;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: .9rem;
+  }
+}
+
+.travel .btn { background: var(--gold); color: #1B1740; box-shadow: none; }
+
+// ---------- Animated scenery ----------
+.sky {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+// Clouds drifting left -> right at different speeds
+.cloud {
+  position: absolute;
+  left: -200px;
+  width: 140px;
+  height: 44px;
+  background: rgba(255, 255, 255, .8);
+  border-radius: 50px;
+  animation: drift 40s linear infinite;
+
+  &::before, &::after { content: ""; position: absolute; background: inherit; border-radius: 50%; }
+  &::before { width: 62px; height: 62px; top: -30px; left: 22px; }
+  &::after  { width: 80px; height: 80px; top: -42px; left: 60px; }
+
+  &--1 { top: 10%; transform: scale(1.1); animation-duration: 55s; opacity: .5; }
+  &--2 { top: 40%; animation-duration: 38s; animation-delay: -15s; opacity: .38; }
+  &--3 { top: 68%; transform: scale(.7); animation-duration: 28s; animation-delay: -8s; opacity: .45; }
+}
+
+@keyframes drift { to { left: 110%; } }
+
+// Aeroplanes: .fly travels across, .plane tilts the icon to face right
+.fly {
+  position: absolute;
+  top: 16%;
+  left: -260px;
+  animation: fly 16s ease-in-out infinite;
+
+  &--small { top: 58%; scale: .55; animation-duration: 24s; animation-delay: -9s; opacity: .8; }
+}
+
+.plane {
+  display: block;
+  width: 70px;
+  height: 70px;
+  color: #fff;
+  transform: rotate(90deg);
+  filter: drop-shadow(0 10px 14px rgba(0, 0, 0, .35));
+
+  svg { width: 100%; height: 100%; fill: currentColor; }
+}
+
+.trail {
+  position: absolute;
+  right: 55px;
+  top: 50%;
+  width: 260px;
+  height: 4px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .9));
+}
+
+@keyframes fly {
+  0%   { transform: translate(0, 40px); }
+  50%  { transform: translate(60vw, -30px); }
+  100% { transform: translate(115vw, 20px); }
+}
+
+// ---------- World route ----------
+.route {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 24px;
+  width: 100%;
+  height: 150px;
+
+  path { fill: none; stroke: #fff; stroke-width: 2.5; stroke-dasharray: 7 9; animation: dash 3s linear infinite; }
+  circle { fill: var(--gold); stroke: #fff; stroke-width: 2; }
+  text { fill: #fff; font: 800 14px $font-body; text-anchor: middle; paint-order: stroke; stroke: rgba(13, 11, 36, .7); stroke-width: 3px; }
+
+  @media (max-width: $bp-md) { display: none; }
+}
+
+@keyframes dash { to { stroke-dashoffset: -32; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .cloud, .fly, .route path, .tile svg { animation: none; }
+  .fly { left: 30%; }
+}
